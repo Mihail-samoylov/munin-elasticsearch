@@ -110,14 +110,14 @@ end
 data = {};
 
 begin
-    nodes_d = fetch('/_nodes');
-    stats_d = fetch( '/_nodes/'+@node+'/stats?jvm=true&fs=true&indices=true');
+    nodes_d = fetch('/_nodes/_local');
+    stats_d = fetch('/_nodes/_local/stats?jvm=true&fs=true&indices=true');
 rescue
     err.puts "Fetch error"
     exit 1
 end
 
-node_index = nodes_d['nodes'].find_index {|k,v| v['name'] == @node }
+node_index = nodes_d['nodes'].find_index {|k,v| v['name'] != '' }
 if node_index.nil?
     err.puts "No node found"
     exit 1
